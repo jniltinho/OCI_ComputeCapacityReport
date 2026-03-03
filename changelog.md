@@ -1,4 +1,7 @@
 # Changelog
+Version 3.0.4
+- update default shape list
+- add support for VM.Standard.A4.Flex CPU/Memory ratio
 
 Version 3.0.3
 - add 'available_count' value for DRCC customers and whitelisted tenancies

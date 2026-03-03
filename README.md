@@ -2,7 +2,7 @@
 
 **Check the Availability of Any Compute Shape Across OCI Regions !**
 
-Easily find out which regions offer the latest compute shapes, such as VM.Standard.E5.Flex.
+Easily find out which regions offer the latest compute shapes, such as VM.Standard.E6.Flex.
 
 OCI_ComputeCapacityReport provides the availability status down to the Fault Domain level and automatically relaunches after completing the first query or encountering an error.
 
@@ -12,8 +12,14 @@ Output meanings are:
 - **HARDWARE_NOT_SUPPORTED** => The necessary hardware has not yet been deployed in this region.
 - **OUT_OF_HOST_CAPACITY** => Additional hardware is currently being deployed in this region
 
-**version: 3.0.3**
-- DRCC customers and whitelisted tenancies can now display 'available_count' value using '-drcc' argument
+
+DRCC customers and whitelisted tenancies can display the value of **available_count** by using the **-drcc** argument.
+
+This script automatically discovers new shapes and does not require updates to maintain a complete list of existing shapes in the code.
+
+If you want to check the availability of a shape that is offered only in a specific region (and not in your home region), you must connect directly to the target region.
+
+	python3 ./OCI_ComputeCapacityReport.py -region eu-paris-1
 
 ## Quick Start
 

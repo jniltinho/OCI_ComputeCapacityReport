@@ -4,7 +4,7 @@
 # name: OCI_ComputeCapacityReport.py
 #
 # Author: Florian Bonneville
-# Version: 3.0.3 - October 25, 2024
+# Version: 3.0.4 - March 4, 2026
 #
 # Disclaimer: 
 # This script is an independent tool developed by 
@@ -13,7 +13,7 @@
 # any warranty or official endorsement from Oracle
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-version = '3.0.3'
+version = '3.0.4'
 
 import oci
 import os.path
