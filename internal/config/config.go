@@ -1,6 +1,6 @@
 package config
 
-const Version = "4.0.0"
+var Version = "4.0.0"
 
 type Options struct {
 	UserAuth       string

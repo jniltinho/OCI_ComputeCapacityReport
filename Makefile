@@ -1,12 +1,12 @@
 BINARY      := oci-compute-capacity-report
-VERSION     := 4.0.0
+VERSION     ?= $(shell git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//' || echo "4.0.0")
 BUILD_DIR   := bin
 GO          := go
 UPX         := upx
-LDFLAGS     := -s -w
+LDFLAGS     := -s -w -X github.com/Olygo/OCI_ComputeCapacityReport/internal/config.Version=$(VERSION)
 UPX_FLAGS   := --best --lzma
 
-.PHONY: all build build-noupx clean install help run
+.PHONY: all build build-noupx clean deps install help run
 
 all: build
 
@@ -28,6 +28,10 @@ build-noupx:
 	$(GO) build -trimpath -ldflags "$(LDFLAGS)" -o $(BUILD_DIR)/$(BINARY) .
 	@echo "==> Done: $(BUILD_DIR)/$(BINARY)"
 
+deps:
+	@echo "==> Downloading Go dependencies"
+	$(GO) mod download
+
 clean:
 	@echo "==> Cleaning"
 	rm -rf $(BUILD_DIR)/$(BINARY) $(BUILD_DIR)/$(BINARY).tmp $(BUILD_DIR)
@@ -43,6 +47,7 @@ help:
 	@echo "Targets:"
 	@echo "  build        Build and compress binary with UPX (default)"
 	@echo "  build-noupx  Build without UPX compression"
+	@echo "  deps         Download Go module dependencies"
 	@echo "  clean        Remove build artifacts"
 	@echo "  install      Install binary to /usr/local/bin"
 	@echo "  run          Build and run the application"

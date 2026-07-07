@@ -1,0 +1,55 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Set timezone to America/Sao_Paulo
+        run: sudo timedatectl set-timezone America/Sao_Paulo
+
+      - name: Verify timezone change
+        run: timedatectl && date
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.26'
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y upx
+
+      - name: Install Go Dependencies
+        run: make deps
+
+      - name: Build Application
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          make build VERSION="$VERSION"
+
+      - name: Package Binary
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          ARCHIVE_NAME="oci-compute-capacity-report_${VERSION}_linux_amd64.tar.gz"
+          cd bin && tar -czvf "../$ARCHIVE_NAME" oci-compute-capacity-report && cd ..
+          echo "ARCHIVE_NAME=$ARCHIVE_NAME" >> $GITHUB_ENV
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ${{ env.ARCHIVE_NAME }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
