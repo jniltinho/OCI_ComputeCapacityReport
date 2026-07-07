@@ -1,79 +1,60 @@
 # Changelog
-Version 3.0.4
-- update default shape list
-- add support for VM.Standard.A4.Flex CPU/Memory ratio
 
-Version 3.0.3
-- add 'available_count' value for DRCC customers and whitelisted tenancies
+## Version 4.0.0
 
-Version 3.0.2
-- Handles specific use case exceptions with flexible shapes 
-- Increases region connectivity timeout and improves exceptions
+- Rewrite the tool in Go (replaces the Python implementation)
+- Single binary build with `make build` (UPX-compressed by default)
+- CLI flags now use double-dash syntax (`--auth`, `--shape`, `--region`, etc.)
+- Python v3.x source archived under `legacy/python/`
 
-Version 3.0.1
-- minor fixes
+## Version 3.0.4
 
-Version 3.0.0
-## New Features
+- Update default shape list
+- Add support for VM.Standard.A4.Flex CPU/memory ratio
 
-- Add interactive support for admin & non-admin:
-    admins can bypass the control using -su
+## Version 3.0.3
 
-- Add oCPU and Memory filters & display
+- Add `available_count` value for DRCC customers and whitelisted tenancies
 
-- Add a loop to the script so that it automatically relaunches after completing the first query or encountering an error
+## Version 3.0.2
 
-- Add re-authentication function
-	Attempts to reauthenticate by prompting the user to specify a config file if all prior authentication methods have failed
+- Handle specific use-case exceptions with flexible shapes
+- Increase region connectivity timeout and improve exception handling
 
-- Enhance code and errors management
+## Version 3.0.1
 
-Version 2.0.1
-## New Features
+- Minor fixes
+
+## Version 3.0.0
+
+### New Features
+
+- Add interactive support for admin and non-admin users; admins can bypass the prompt using `-su`
+- Add oCPU and memory filters and display
+- Add a loop so the script automatically relaunches after completing the first query or encountering an error
+- Add re-authentication: prompt the user for a config file if all prior authentication methods have failed
+- Improve code structure and error management
+
+## Version 2.0.1
+
+### New Features
 
 - Add support for non-admin users:
+  - Add the `set_user_compartment` function in `legacy/python/modules/identity.py`
+  - Include the `-su` argument to let administrators bypass the script prompt
+  - Include the `-comp` argument to let non-admin users specify their compartment and bypass the script prompt
+- Implement a compartment state check
+- Improve the error log message in the `create_and_print_report` function
 
-    add the set_user_compartment function in ./modules/identity.py.
-	Include the -su argument to enable administrators to bypass the script prompt.
-    Include the -comp argument to allow non-admin users to specify their compartment and bypass the script prompt.
+## Version 2.0.0
 
-- Implement a compartment state check.
+### New Features
 
-- Enhance the error log message in the create_and_print_report function
-
-Version 2.0.0
-## New Features
-
-- Automated Authentication Testing: 
-
-	Now automatically tests all available authentication methods by default, removing the need to specify command line arguments for authentication.
-	
-- Manual Authentication Selection: 
-	
-	Users can now force a specific authentication method using the -auth command line argument with options cs, cf, or ip.
-	
-- Dynamic Region Handling:
-
-	The script now checks connectivity to a region before executing any requests against it.
-
-- Improve region(s) management:
-
-	By default, the script analyzes the home_region.
-	Users can specify a different target region using the -region option or run against all subscribed regions 	with -region all_regions.
-
-- Shape Verification and Input Handling:
-
-   Now verifies if a given shape_name exists before running the capacity_report.
-   If no shape is provided via command line arguments, the script prompts the user for input and displays a 	list of available shapes.
-   
-- Support for DenseIO Flexible VM Shapes:
-	
-	Now supports specific configurations of DenseIO Flexible VM shapes, allowing more customized resource management.
-
-- Custom oCPUs and Memory: 
-
-	Users can now force specific configurations of oCPUs and memory for requested shapes, providing more flexibility in defining VM resources.
-
-- Automatic Shape List Update:
-
-	Now automatically updates its list of available shapes, ensuring users always have the most current 	options displayed.
+- Automated authentication testing: automatically tests all available authentication methods by default, removing the need to specify command-line arguments for authentication
+- Manual authentication selection: force a specific authentication method using the `-auth` argument with options `cs`, `cf`, or `ip`
+- Dynamic region handling: check connectivity to a region before executing any requests against it
+- Improved region management: analyze the home region by default; use `-region` for a specific target region or `-region all_regions` for all subscribed regions
+- Shape verification and input handling: verify that a given `shape_name` exists before running the capacity report; prompt the user and display available shapes when none is provided
+- Support for DenseIO flexible VM shapes with customized resource configurations
+- Custom oCPUs and memory: force specific oCPU and memory values for requested shapes
+- Automatic shape list update: keep the list of available shapes current without manual code changes
